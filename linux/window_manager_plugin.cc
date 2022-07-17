@@ -767,29 +767,6 @@ void window_manager_plugin_register_with_registrar(
   plugin->window_geometry.min_height = -1;
   plugin->window_geometry.max_width = G_MAXINT;
   plugin->window_geometry.max_height = G_MAXINT;
-  g_signal_connect(get_window(plugin), "delete_event",
-                   G_CALLBACK(on_window_close), NULL);
-  g_signal_connect(get_window(plugin), "focus-in-event",
-                   G_CALLBACK(on_window_focus), NULL);
-  g_signal_connect(get_window(plugin), "focus-out-event",
-                   G_CALLBACK(on_window_blur), NULL);
-  g_signal_connect(get_window(plugin), "show", G_CALLBACK(on_window_show),
-                   NULL);
-  g_signal_connect(get_window(plugin), "hide", G_CALLBACK(on_window_hide),
-                   NULL);
-  g_signal_connect(get_window(plugin), "check-resize",
-                   G_CALLBACK(on_window_resize), NULL);
-  g_signal_connect(get_window(plugin), "configure-event",
-                   G_CALLBACK(on_window_move), NULL);
-  g_signal_connect(get_window(plugin), "window-state-event",
-                   G_CALLBACK(on_window_state_change), NULL);
-  g_signal_connect(get_window(plugin), "draw", G_CALLBACK(on_window_draw),
-                   NULL);
-
-  g_signal_add_emission_hook(
-      g_signal_lookup("button-press-event", GTK_TYPE_WIDGET), 0, on_mouse_press,
-      plugin, NULL);
-
   g_autoptr(FlStandardMethodCodec) codec = fl_standard_method_codec_new();
   plugin->channel =
       fl_method_channel_new(fl_plugin_registrar_get_messenger(registrar),
