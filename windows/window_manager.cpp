@@ -96,10 +96,7 @@ void WindowManager::SetFullScreen(const flutter::EncodableMap& args) {
     ::SetWindowLong(main_window, GWL_EXSTYLE, ex_style_before_fullscreen_);
     SendMessage(main_window, WM_SYSCOMMAND, SC_RESTORE, 0);
     if (maximized_before_fullscreen_) {
-      flutter::EncodableMap args2 = flutter::EncodableMap();
-      args2[flutter::EncodableValue("vertically")] =
-          flutter::EncodableValue(false);
-      Maximize(args2);
+      Maximize();
     } else {
       ::SetWindowPos(
           main_window, NULL, frame_before_fullscreen_.left,
@@ -120,23 +117,12 @@ bool WindowManager::IsMaximized() {
   return window_placement.showCmd == SW_MAXIMIZE;
 }
 
-void WindowManager::Maximize(const flutter::EncodableMap& args) {
-  bool vertically =
-      std::get<bool>(args.at(flutter::EncodableValue("vertically")));
-
+void WindowManager::Maximize() {
   HWND hwnd = GetMainWindow();
   WINDOWPLACEMENT window_placement;
   GetWindowPlacement(hwnd, &window_placement);
-
-  if (vertically) {
-    POINT cursorPos;
-    GetCursorPos(&cursorPos);
-    PostMessage(hwnd, WM_NCLBUTTONDBLCLK, HTTOP,
-                MAKELPARAM(cursorPos.x, cursorPos.y));
-  } else {
-    if (window_placement.showCmd != SW_MAXIMIZE) {
-      PostMessage(hwnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
-    }
+  if (window_placement.showCmd != SW_MAXIMIZE) {
+    PostMessage(hwnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
   }
 }
 
