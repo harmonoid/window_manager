@@ -28,7 +28,7 @@ class WindowManager {
   HWND native_window;
 
   bool WindowManager::IsMaximized();
-  void WindowManager::Maximize(const flutter::EncodableMap& args);
+  void WindowManager::Maximize();
   HWND GetMainWindow();
   bool WindowManager::IsFullScreen();
   void WindowManager::SetFullScreen(const flutter::EncodableMap& args);
