@@ -6,6 +6,12 @@ class WindowManager {
 
   const WindowManager._();
 
+  Future<void> ensureInitialized() async {
+    await _channel.invokeMethod(
+      'ensureInitialized',
+    );
+  }
+
   Future<bool> isFullScreen() async {
     return await _channel.invokeMethod(
       'isFullScreen',
